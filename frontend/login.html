@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        display: flex;
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        width: 90%;
+        min-height: 600px;
+      }
+
+      .welcome-section {
+        background: #2c3e50;
+        color: white;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        text-align: center;
+      }
+
+      .welcome-section h1 {
+        font-size: 2.5em;
+        margin-bottom: 30px;
+      }
+
+      .register-btn {
+        border: 2px solid white;
+        background: transparent;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .register-btn:hover {
+        background: white;
+        color: #2c3e50;
+        transform: translateY(-2px);
+      }
+
+      .form-section {
+        flex: 1;
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .form-section h2 {
+        font-size: 2em;
+        margin-bottom: 40px;
+        color: #333;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #e1e8ed;
+        border-radius: 10px;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .forgot-password {
+        text-align: right;
+        margin-bottom: 30px;
+      }
+
+      .forgot-password a {
+        color: #667eea;
+        text-decoration: none;
+        font-size: 0.9em;
+      }
+
+      .social-login {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .social-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .social-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .google {
+        background: #db4437;
+      }
+      .facebook {
+        background: #3b5998;
+      }
+      .apple {
+        background: #000;
+      }
+
+      .login-btn {
+        width: 100%;
+        background: #2c3e50;
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .login-btn:hover {
+        background: #34495e;
+        transform: translateY(-2px);
+      }
+
+      .error-message {
+        color: #e74c3c;
+        text-align: center;
+        margin-top: 15px;
+        display: none;
+      }
+
+      .success-message {
+        color: #27ae60;
+        text-align: center;
+        margin-top: 15px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="welcome-section">
+        <h1>Hello, Welcome!</h1>
+        <a href="/register" class="register-btn">Đăng ký</a>
+      </div>
+
+      <div class="form-section">
+        <h2>Đăng nhập</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <input
+              type="text"
+              id="username"
+              placeholder="Tên đăng nhập"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <input
+              type="password"
+              id="password"
+              placeholder="Mật khẩu"
+              required
+            />
+          </div>
+
+          <div class="forgot-password">
+            <a href="#">Quên mật khẩu?</a>
+          </div>
+
+          <div class="social-login">
+            <button type="button" class="social-btn google">G</button>
+            <button type="button" class="social-btn facebook">f</button>
+            <button type="button" class="social-btn apple">🍎</button>
+          </div>
+
+          <button type="submit" class="login-btn">Đăng nhập</button>
+
+          <div id="errorMessage" class="error-message"></div>
+          <div id="successMessage" class="success-message"></div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          const errorDiv = document.getElementById("errorMessage");
+          const successDiv = document.getElementById("successMessage");
+
+          // Hide previous messages
+          errorDiv.style.display = "none";
+          successDiv.style.display = "none";
+
+          try {
+            const response = await fetch(
+              "http://localhost:3000/api/auth/login",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+              }
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+              successDiv.textContent = data.message;
+              successDiv.style.display = "block";
+              sessionStorage.setItem("user", JSON.stringify(data.user));
+
+              setTimeout(() => {
+                window.location.href = "/";
+              }, 1000);
+            } else {
+              errorDiv.textContent = data.message;
+              errorDiv.style.display = "block";
+            }
+          } catch (error) {
+            errorDiv.textContent = "Có lỗi xảy ra. Vui lòng thử lại.";
+            errorDiv.style.display = "block";
+          }
+        });
+    </script>
+  </body>
+</html>

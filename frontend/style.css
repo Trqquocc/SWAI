@@ -1,0 +1,377 @@
+/* ===== LAYOUT STYLES ===== */
+#schedule-section {
+  background-color: #f9f9f9 !important;
+  height: calc(100vh - 80px); /* Thay header-height bằng giá trị cụ thể */
+}
+
+/* ===== GRID LAYOUTS ===== */
+.work-schedule-grid {
+  display: grid;
+  grid-template-columns: 100px 100px 100px 120px 120px 1fr 100px;
+  gap: 8px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .work-schedule-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .work-schedule-grid > div:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+/* ===== COMPONENT STYLES ===== */
+/* Salary summary cards */
+.salary-summary-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.salary-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Tab content animation */
+.tab-content {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tab-content:not(.hidden) {
+  opacity: 1;
+}
+
+/* ===== FORM INPUTS ===== */
+.salary-input {
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease;
+}
+
+.salary-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.hourlyWageInput {
+  text-align: right;
+  padding-right: 8px;
+}
+
+.hourlyWageInput::-webkit-inner-spin-button,
+.hourlyWageInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ===== CUSTOM FORM CONTROLS ===== */
+.custom-radio {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-radio:checked {
+  background-color: #000;
+  border: 2px solid #000;
+  box-shadow: inset 0 0 0 3px white;
+}
+
+.custom-checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #000;
+  border-radius: 3px;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.custom-checkbox:checked {
+  background-color: #000;
+  border: 2px solid #000;
+}
+
+.custom-checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ===== DATETIME CONTROLS ===== */
+.datetime-group {
+  opacity: 0.5;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.datetime-group.enabled {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===== MODAL STYLES ===== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ===== SCROLLBAR STYLES ===== */
+/* Global scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f5f9;
+}
+
+/* Thin scrollbar for specific elements */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border-radius: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 4px;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+/* ===== CALENDAR COMPONENT STYLES ===== */
+/* Sử dụng class specificity cao để tránh xung đột */
+.calendar-widget {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  max-width: 320px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Đặt position để tránh ảnh hưởng layout khác */
+  position: relative;
+  z-index: 1;
+}
+
+.calendar-widget .cal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-widget .cal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.calendar-widget .cal-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.calendar-widget .cal-nav-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f3f4f6;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.calendar-widget .cal-nav-btn:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.calendar-widget .cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.calendar-widget .cal-weekdays span {
+  text-align: center;
+  font-size: 9px;
+  font-weight: 600;
+  color: #9ca3af;
+  padding: 3px 2px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+}
+
+.calendar-widget .cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-widget .cal-day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 6px 4px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-widget .cal-day:hover {
+  background: #dbeafe;
+  color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.calendar-widget .cal-day.cal-today {
+  background: #2563eb;
+  color: white;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.calendar-widget .cal-day.cal-today:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.calendar-widget .cal-day.cal-other-month {
+  color: #d1d5db;
+  cursor: default;
+}
+
+.calendar-widget .cal-day.cal-other-month:hover {
+  background: transparent;
+  color: #d1d5db;
+  transform: none;
+}
+
+.calendar-widget .cal-event-dots {
+  display: flex;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.calendar-widget .cal-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+.calendar-widget .cal-dot.cal-blue {
+  background: #3b82f6;
+}
+.calendar-widget .cal-dot.cal-green {
+  background: #10b981;
+}
+.calendar-widget .cal-dot.cal-purple {
+  background: #8b5cf6;
+}
+.calendar-widget .cal-dot.cal-pink {
+  background: #ec4899;
+}
+.calendar-widget .cal-dot.cal-orange {
+  background: #f59e0b;
+}
+
+.calendar-widget .cal-day.cal-today .cal-dot {
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ===== RESPONSIVE CALENDAR ===== */
+@media (max-width: 768px) {
+  .calendar-widget {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .calendar-widget .cal-day {
+    min-height: 36px;
+    font-size: 12px;
+  }
+}
